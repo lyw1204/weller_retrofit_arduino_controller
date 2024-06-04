@@ -28,6 +28,7 @@ class Station{
     TriStateLED* myLed;
     AC_Clock* myClk;
 
+    uint32_t last_write;
 private:
     void pin_attach();
     void read_tmp();

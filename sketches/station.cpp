@@ -35,6 +35,7 @@ Station::Station(uint8_t pot, uint8_t clk, uint8_t tmp, uint8_t lck, uint8_t out
 
     myClk = new AC_Clock(clk);
 
+    uint32_t last_write = 0;
     
 }
 //Subroutines
@@ -100,7 +101,11 @@ void Station::cycle_led(){
 }
 
 void Station::debug_write(){
-  Serial.println(String(STATE_TMP)+","+String(STATE_SET)+","+String(STATE_PWR_SW)); 
+    uint32_t now = millis();
+    if (now-last_write > 1000){
+        Serial.println(String(STATE_TMP)+","+String(STATE_SET)+","+String(STATE_PWR_SW)); 
+        last_write = now;
+    }
 }
 
 
@@ -117,6 +122,6 @@ void Station::update(){
     myClk->update();
 
     heat();
-    //debug_write();
+    debug_write();
 
 }
